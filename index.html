@@ -32,7 +32,7 @@ body{
   overflow-x:hidden;
   font-family: 'Inter', sans-serif;
   color: var(--text-main);
-  cursor: none; /* Custom fluid ring cursor active */
+  cursor: none; 
   -webkit-font-smoothing: antialiased;
   user-select: none;
 }
@@ -42,20 +42,30 @@ body{
   width:16px;
   height:16px;
   border-radius:50%;
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
   position:fixed;
   pointer-events:none;
   transform:translate(-50%,-50%);
   backdrop-filter:blur(4px);
   -webkit-backdrop-filter:blur(4px);
   z-index:9999;
-  transition: transform 0.12s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
+  transition: transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
 }
 
 .cursor-hover {
   transform: translate(-50%, -50%) scale(2.2);
   background: rgba(255, 255, 255, 0.35);
   box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Magic Pointer Sparkles Trailing */
+.trail-sparkle {
+  position: fixed;
+  pointer-events: none;
+  color: rgba(255,255,255,0.6);
+  font-size: 10px;
+  z-index: 9998;
+  animation: vanishSparkle 0.8s ease-out forwards;
 }
 
 /* Floating Audio Player Widget */
@@ -82,10 +92,9 @@ body{
 .audio-widget:hover {
   background: var(--glass-hover);
   border-color: rgba(255, 255, 255, 0.15);
-  transform: translateY(1px);
 }
 
-/* Atmospheric Floating Particle space mapping */
+/* Cosmic Environmental Canvas Elements */
 .stars, .particles-container{
   position:fixed;
   width:100%;
@@ -105,7 +114,7 @@ body{
 .live-particle {
   position: absolute;
   pointer-events: none;
-  background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 70%);
+  background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 70%);
   border-radius: 50%;
   animation: floatUp linear forwards;
 }
@@ -119,7 +128,7 @@ body{
   background:radial-gradient(circle at 30% 30%,#ffffff,#c7c7cc,#636366);
   border-radius:50%;
   box-shadow:0 0 80px rgba(255,255,255,0.15);
-  animation:floatMoon 7s ease-in-out infinite;
+  animation:floatMoon 7s ease-in-out infinite, dynamicPulse 4s ease-in-out infinite alternate;
   z-index:1;
 }
 
@@ -132,10 +141,26 @@ body{
   border-radius:50%;
   pointer-events: none;
   z-index: 0;
+  animation: dynamicPulse 6s ease-in-out infinite alternate;
 }
 
 .glow1{top:-150px;left:-150px;}
 .glow2{bottom:-150px;right:-150px;}
+
+/* Hidden Easter Egg Node Layout */
+.secret-totem {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  font-size: 24px;
+  z-index: 200;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+.secret-totem:hover {
+  opacity: 1;
+  transform: scale(1.2) rotate(-5deg);
+}
 
 /* Container Layout Grid */
 .container{
@@ -178,7 +203,7 @@ body{
   gap:20px;
   margin-top:45px;
   width:100%;
-  perspective: 1200px; /* Enables true 3D spatial depth */
+  perspective: 1200px; 
 }
 
 .card-perspective-wrapper {
@@ -195,7 +220,6 @@ body{
   transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-/* Triggers hardware accelerated turn execution on class toggle */
 .card-inner.is-flipped {
   transform: rotateY(180deg);
 }
@@ -312,7 +336,7 @@ button:hover{
   margin-bottom: 10px;
 }
 
-/* Non-destructive dynamic signing screen curtain */
+/* Signing Screen Curtain */
 #credits-screen {
   position: fixed;
   inset: 0;
@@ -351,17 +375,23 @@ button:hover{
   50%{transform:translateY(-15px) rotate(1.5deg);}
 }
 
+@keyframes dynamicPulse {
+  0% { opacity: 0.6; transform: scale(0.98); }
+  100% { opacity: 1; transform: scale(1.02); }
+}
+
+@keyframes vanishSparkle {
+  0% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(0.2) rotate(180deg); }
+}
+
 @keyframes floatUp {
   0% {
     transform: translateY(105vh) translateX(0) scale(0.8);
     opacity: 0;
   }
-  10% {
-    opacity: 0.4;
-  }
-  90% {
-    opacity: 0.4;
-  }
+  10% { opacity: 0.4; }
+  90% { opacity: 0.4; }
   100% {
     transform: translateY(-10vh) translateX(var(--drift, 40px)) scale(1.2);
     opacity: 0;
@@ -376,6 +406,7 @@ button:hover{
   .card-front, .card-back { font-size: 13px; padding: 8px; }
   .card-back { font-size: 14px; }
   .audio-widget { top: auto; bottom: 25px; left: 25px; }
+  .secret-totem { bottom: 25px; right: 20px; font-size: 20px; }
 }
 </style>
 </head>
@@ -399,6 +430,9 @@ button:hover{
 <div class="glow glow2"></div>
 <div class="stars" id="stars"></div>
 <div class="particles-container" id="particles"></div>
+
+<!-- Interactive Secret Totem Easter Egg -->
+<div class="secret-totem" id="easterEgg" onclick="triggerSecretBlessing()">🐿️💤</div>
 
 <!-- Safe Spaces Overlay Modals -->
 <div class="overlay" id="overlay">
@@ -474,9 +508,8 @@ button:hover{
 let clicked = { black:false, glasses:false, golgappa:false, cat:false, dog:false, celebrity:false };
 
 function flipCard(innerElement, type){
-  if (innerElement.classList.contains('is-flipped')) return; // Avoid repeating calculations
+  if (innerElement.classList.contains('is-flipped')) return;
 
-  // Run flip animation trigger sequence
   innerElement.classList.add('is-flipped');
   
   const comfortBox = document.getElementById("comfort-box");
@@ -484,7 +517,6 @@ function flipCard(innerElement, type){
   comfortBox.style.transform = "translateY(5px)";
   
   setTimeout(() => {
-    // Collect the dynamic quote text directly from its backside layer element node
     const revealedText = innerElement.querySelector('.card-back').innerText;
     comfortBox.innerText = revealedText;
     comfortBox.style.opacity = 1;
@@ -506,7 +538,7 @@ function checkCompletionState(){
   }
 }
 
-/* Fixed Non-Destructive Credits Runtime Layer Sequence */
+/* Non-Destructive Credits Sequence Loop */
 let creditsInterval;
 function openCreditsSequence(){
   const overlay = document.getElementById("overlay");
@@ -541,14 +573,13 @@ function closeCreditsSequence() {
     creditsScreen.style.display = "none";
     document.getElementById("main-container").style.filter = "blur(0px)";
     
-    // Smooth reset state structures 
     Object.keys(clicked).forEach(key => clicked[key] = false);
     document.querySelectorAll('.card-inner').forEach(c => c.classList.remove('is-flipped'));
     document.getElementById("comfort-box").innerText = "Tap a card 🖤";
   }, 600);
 }
 
-/* Typewriter Core Layout Script Engine */
+/* Typewriter Script Engine */
 const headerText = "Hey Piddi Gilheri 🐿️";
 let charIndex = 0;
 
@@ -560,16 +591,46 @@ function typeWriter(){
 }
 window.addEventListener('DOMContentLoaded', typeWriter);
 
+const customComfortQuotes = [
+  "You are doing better than you think 🖤",
+  "Take a deep breath. You are safe here. 🌙",
+  "It's okay to turn off your strong mode for a while. 🪷",
+  "The world is quieter here. Rest your ears. ✨",
+  "Proud of you for surviving today beautifully. 🫶"
+];
+
 function showMessage(){
   const comfortBox = document.getElementById("comfort-box");
   comfortBox.style.opacity = 0;
   setTimeout(() => {
-    comfortBox.innerText = "You are doing better than you think 🖤";
+    const randomQuote = customComfortQuotes[Math.floor(Math.random() * customComfortQuotes.length)];
+    comfortBox.innerText = randomQuote;
     comfortBox.style.opacity = 1;
   }, 150);
 }
 
-/* Background Stars Generation Engine Map */
+/* Hidden Totem Easter Egg Trigger Logic */
+function triggerSecretBlessing() {
+  const totem = document.getElementById("easterEgg");
+  totem.innerText = "🐿️✨";
+  
+  const comfortBox = document.getElementById("comfort-box");
+  comfortBox.style.opacity = 0;
+  
+  setTimeout(() => {
+    comfortBox.innerText = "Secret blessing activated: You're protected from bad vibes tonight 🛡️🔮";
+    comfortBox.style.opacity = 1;
+  }, 150);
+
+  // Spawns an explosion of local trailing particles near the totem element
+  for(let p=0; p<12; p++) {
+    createMagneticTrailParticle(window.innerWidth - 40, window.innerHeight - 40);
+  }
+
+  setTimeout(() => { totem.innerText = "🐿️💤"; }, 2000);
+}
+
+/* Background Stars Array Map Construction */
 const starsContainer = document.getElementById("stars");
 const starsFragment = document.createDocumentFragment();
 
@@ -585,7 +646,7 @@ for(let i=0; i<45; i++){
 }
 starsContainer.appendChild(starsFragment);
 
-/* Ambient Cascading Particle Engine (Makes the space feel alive) */
+/* Ambient Particle Engine */
 const particlesContainer = document.getElementById("particles");
 function spawnLiveParticle() {
   const particle = document.createElement("div");
@@ -604,18 +665,53 @@ function spawnLiveParticle() {
   particlesContainer.appendChild(particle);
   setTimeout(() => { particle.remove(); }, duration * 1000);
 }
-// Continuous breathing cycle loop runtime
 setInterval(spawnLiveParticle, 450);
 
-/* Center-Calibrated Custom Cursor Tracker Engine */
+/* Cursor Interactive Wand Sparkle System Engine */
+function createMagneticTrailParticle(x, y) {
+  const sparkle = document.createElement("div");
+  sparkle.className = "trail-sparkle";
+  
+  const symbols = ["✦", "✧", "•", "✨"];
+  sparkle.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+  
+  sparkle.style.left = x + "px";
+  sparkle.style.top = y + "px";
+  
+  // Randomizing subtle offset offsets inside execution scopes
+  const offset = () => (Math.random() * 30 - 15) + "px";
+  sparkle.style.marginLeft = offset();
+  sparkle.style.marginTop = offset();
+  
+  document.body.appendChild(sparkle);
+  setTimeout(() => { sparkle.remove(); }, 800);
+}
+
+/* Custom Cursor Dynamic Tracking */
 const cursor = document.getElementById("cursor");
+let lastSpawnTime = 0;
+
 document.addEventListener("mousemove", e => {
   cursor.style.left = e.clientX + "px";
   cursor.style.top = e.clientY + "px";
+  
+  // Controls density of left trailing sparkles behind the pointer path coordinates
+  let now = Date.now();
+  if (now - lastSpawnTime > 65) { 
+    createMagneticTrailParticle(e.clientX, e.clientY);
+    lastSpawnTime = now;
+  }
 });
 
+// Touch listener optimization for mobile star trail dragging
+document.addEventListener("touchmove", e => {
+  if (e.touches.length > 0) {
+    createMagneticTrailParticle(e.touches[0].clientX, e.touches[0].clientY);
+  }
+}, {passive: true});
+
 function syncCursorTriggers() {
-  const targets = document.querySelectorAll('button, .card-front, .audio-widget');
+  const targets = document.querySelectorAll('button, .card-front, .audio-widget, .secret-totem');
   targets.forEach(t => {
     t.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
     t.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
@@ -623,7 +719,7 @@ function syncCursorTriggers() {
 }
 setTimeout(syncCursorTriggers, 500);
 
-/* Background Autoplay Framework Logic */
+/* Ambient Audio Autoplay System Framework */
 const music = document.getElementById("bgMusic");
 const musicWidget = document.getElementById("musicWidget");
 const audioIcon = document.getElementById("audio-icon");
@@ -642,16 +738,4 @@ document.body.addEventListener('click', tryPlayAudio);
 musicWidget.addEventListener('click', (e) => {
   e.stopPropagation();
   if (music.paused) {
-    music.play();
-    audioIcon.innerText = "🌙";
-    audioLabel.innerText = "Playing softly...";
-  } else {
-    music.pause();
-    audioIcon.innerText = "📁";
-    audioLabel.innerText = "Music paused";
-  }
-});
-</script>
-
-</body>
-</html>
+    musi
