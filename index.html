@@ -72,15 +72,8 @@ border-radius:50%;
 z-index:0;
 }
 
-.glow1{
-top:-100px;
-left:-100px;
-}
-
-.glow2{
-bottom:-120px;
-right:-120px;
-}
+.glow1{top:-100px;left:-100px;}
+.glow2{bottom:-120px;right:-120px;}
 
 .petal{
 position:fixed;
@@ -135,6 +128,7 @@ padding:20px;
 border-radius:22px;
 transition:0.4s;
 backdrop-filter:blur(8px);
+cursor:pointer;
 }
 
 .card:hover{
@@ -198,9 +192,7 @@ z-index:100;
 transition:0.3s;
 }
 
-.squirrel:hover{
-transform:scale(1.2);
-}
+.squirrel:hover{transform:scale(1.2);}
 
 #cat{
 position:fixed;
@@ -232,48 +224,17 @@ text-align:center;
 padding:20px;
 }
 
-.overlay h2{
-font-size:2rem;
-margin-bottom:20px;
-}
+.overlay h2{font-size:2rem;margin-bottom:20px;}
+.overlay p{max-width:500px;color:#ccc;line-height:1.8;}
 
-.overlay p{
-max-width:500px;
-color:#ccc;
-line-height:1.8;
-}
-
-@keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
-}
-
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(20px);}
-to{opacity:1;transform:translateY(0);}
-}
-
-@keyframes fall{
-to{
-transform:translateY(110vh) rotate(360deg);
-opacity:0;
-}
-}
-
-@keyframes floatMoon{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
-}
+@keyframes twinkle{from{opacity:0.2;}to{opacity:1;}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+@keyframes fall{to{transform:translateY(110vh) rotate(360deg);opacity:0;}}
+@keyframes floatMoon{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
 
 @media(max-width:700px){
-.typewriter{
-font-size:2rem;
-}
-
-.moon{
-width:90px;
-height:90px;
-}
+.typewriter{font-size:2rem;}
+.moon{width:90px;height:90px;}
 }
 </style>
 </head>
@@ -281,26 +242,10 @@ height:90px;
 <body>
 
 <div class="cursor" id="cursor"></div>
-
 <div class="moon"></div>
-
 <div class="glow glow1"></div>
 <div class="glow glow2"></div>
-
 <div class="stars" id="stars"></div>
-
-<div class="overlay" id="overlay">
-<h2>You are safe here 🪷</h2>
-<p>
-Take a breath, tiny celebrity 🌙<br><br>
-The world can get loud sometimes, but that doesn't change your worth.<br><br>
-Rest a little now 🖤
-</p>
-
-<button onclick="closeOverlay()">
-Return Slowly 🌙
-</button>
-</div>
 
 <div class="container">
 
@@ -308,12 +253,9 @@ Return Slowly 🌙
 <source src="tere-nishan.mp3" type="audio/mpeg">
 </audio>
 
-<button id="musicBtn">
-🎵 Touch for cozy vibes
-</button>
+<button id="musicBtn">🎵 Touch for cozy vibes</button>
 
 <div style="font-size:75px;">🪷</div>
-
 <div class="typewriter" id="typewriter"></div>
 
 <p class="subtitle">
@@ -321,26 +263,18 @@ A tiny cozy universe made for the girl who acts strong even when the world gets 
 </p>
 
 <div class="cards">
-<div class="card">🖤 Black aesthetic</div>
-<div class="card">🥽 Cute glasses</div>
-<div class="card">🌮 Golgappe energy</div>
-<div class="card">🐱 Cat vibes</div>
-<div class="card">🐶 Dog lover</div>
-<div class="card">✨ Chhoti celebrity</div>
+<div class="card" onclick="reveal('black')">🖤 Black aesthetic</div>
+<div class="card" onclick="reveal('glasses')">🥽 Cute glasses</div>
+<div class="card" onclick="reveal('golgappa')">🌮 Golgappe energy</div>
+<div class="card" onclick="reveal('cat')">🐱 Cat vibes</div>
+<div class="card" onclick="reveal('dog')">🐶 Dog lover</div>
+<div class="card" onclick="reveal('celebrity')">✨ Chhoti celebrity</div>
 </div>
 
-<button onclick="showMessage()">
-Press when sad 🌙
-</button>
+<button onclick="showMessage()">Press when sad 🌙</button>
+<button onclick="openOverlay()">Everything feels too much 🫶</button>
 
-<button onclick="openOverlay()">
-Everything feels too much 🫶
-</button>
-
-<div id="comfort-box">
-You are safe here 🪷
-</div>
-
+<div id="comfort-box">Tap a card to reveal your chaos 🖤</div>
 <div id="secretNote"></div>
 
 <div class="footer">
@@ -349,139 +283,79 @@ You are safe here 🪷
 
 </div>
 
-<div id="cat">
-🐱
-</div>
+<div id="cat">🐱</div>
+<div class="squirrel" onclick="squirrelMessage()">🐿️</div>
 
-<div class="squirrel" onclick="squirrelMessage()">
-🐿️
+<div class="overlay" id="overlay">
+<h2>You are safe here 🪷</h2>
+<p>
+Take a breath, tiny celebrity 🌙<br><br>
+The world can get loud sometimes, but that doesn't change your worth.<br><br>
+Rest a little now 🖤
+</p>
+<button onclick="closeOverlay()">Return Slowly 🌙</button>
 </div>
 
 <script>
 
-const text = "Hey Piddi Gilheri 🐿️";
-let i = 0;
+const hiddenMessages = {
+black: "Tathastu 🗿",
+glasses: "Kya re double battery",
+golgappa: "10 le 5 aate wale 10 ke 4 suzi wale 👹",
+cat: "Kukul khulhadibaaz 😼",
+dog: "Manjit ka ladka ooi 👺",
+celebrity: "Piddi 🗿🐿️🤏"
+};
 
+function reveal(type){
+document.getElementById("comfort-box").innerText = hiddenMessages[type];
+}
+
+// typewriter
+const text = "Hey Piddi Gilheri 🐿️";
+let i=0;
 function typeWriter(){
-if(i < text.length){
-document.getElementById("typewriter").innerHTML += text.charAt(i);
-i++;
+if(i<text.length){
+document.getElementById("typewriter").innerHTML += text.charAt(i++);
 setTimeout(typeWriter,100);
 }
 }
-
 typeWriter();
 
-const messages = [
+// random message
+const messages=[
 "You don’t always have to act strong here 🖤",
 "Tiny celebrity detected ✨",
 "Drink water, piddi gilheri 🐿️",
-"The world feels softer with you in it 🌙",
-"Even lotus flowers bloom slowly 🪷",
-"Rest a little, dumbo 🫶",
-"You're loved more than you realize 🌸",
-"Please be gentle with yourself tonight 🌙"
+"The world feels softer with you in it 🌙"
 ];
 
 function showMessage(){
-const text = messages[Math.floor(Math.random()*messages.length)];
-document.getElementById("comfort-box").innerText = text;
+document.getElementById("comfort-box").innerText =
+messages[Math.floor(Math.random()*messages.length)];
 }
 
 function squirrelMessage(){
 alert("Emergency squirrel hug deployed 🐿️🫂");
 }
 
-const stars = document.getElementById("stars");
-
+// stars
+const stars=document.getElementById("stars");
 for(let i=0;i<45;i++){
-const star = document.createElement("div");
-
-star.className="star";
-star.innerText="✦";
-
-star.style.left=Math.random()*100+"%";
-star.style.top=Math.random()*100+"%";
-star.style.fontSize=Math.random()*12+8+"px";
-
-stars.appendChild(star);
+const s=document.createElement("div");
+s.className="star";
+s.innerText="✦";
+s.style.left=Math.random()*100+"%";
+s.style.top=Math.random()*100+"%";
+stars.appendChild(s);
 }
 
-function createPetal(){
-const petal = document.createElement("div");
-
-petal.className="petal";
-
-const petals=["🪷","🌸","✨"];
-
-petal.innerText=petals[Math.floor(Math.random()*petals.length)];
-
-petal.style.fontSize=(Math.random()*20+15)+"px";
-petal.style.opacity=Math.random();
-petal.style.left=Math.random()*100+"vw";
-petal.style.animationDuration=(Math.random()*5+5)+"s";
-
-
-document.body.appendChild(petal);
-
-setTimeout(()=>{
-petal.remove();
-},10000);
-}
-
-setInterval(createPetal,1200);
-
-const cursor = document.getElementById("cursor");
-
-document.addEventListener("mousemove",(e)=>{
+// cursor
+const cursor=document.getElementById("cursor");
+document.addEventListener("mousemove",e=>{
 cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
-
-function openOverlay(){
-document.getElementById("overlay").style.display="flex";
-document.querySelector(".container").style.filter="blur(8px)";
-}
-
-function closeOverlay(){
-document.getElementById("overlay").style.display="none";
-document.querySelector(".container").style.filter="blur(0px)";
-}
-
-const music=document.getElementById("bgMusic");
-const musicBtn=document.getElementById("musicBtn");
-
-musicBtn.addEventListener("click",()=>{
-music.play();
-musicBtn.innerText="🌙 Playing";
-});
-
-document.getElementById("cat").onclick=()=>{
-alert("meow meow comfort delivery 🐱");
-};
-
-const notes=[
-"You matter more than you think 🌙",
-"Rest your mind a little 🪷",
-"Some souls deserve softness 🖤",
-"You're doing better than you realize ✨"
-];
-
-setInterval(()=>{
-const note=document.getElementById("secretNote");
-
-note.style.opacity=0;
-
-setTimeout(()=>{
-note.innerText=notes[Math.floor(Math.random()*notes.length)];
-note.style.opacity=1;
-},1000);
-
-},8000);
-
-window.onbeforeunload = function(){
-return "Take care, tiny celebrity 🌙";
-};
 
 </script>
 
