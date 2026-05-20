@@ -1,21 +1,26 @@
 export default function CozyLotusSite() { const messages = [ "You don’t always have to act strong here 🖤", "Tiny celebrity detected ✨", "Drink water, piddi gilheri 🐿️", "The world feels softer with you in it 🌙", "Even lotus flowers bloom slowly 🪷", "Rest a little, dumbo 🫶", ];
 
-const randomMessage = () => { const text = messages[Math.floor(Math.random() * messages.length)]; const box = document.getElementById("comfort-box"); if (box) box.innerText = text; };
+const randomMessage = () => { const text = messages[Math.floor(Math.random() * messages.length)]; const box = document.getElementById("comfort-box"); if (box) { box.innerText = text; } };
 
-return ( <div className="min-h-screen bg-black text-neutral-200 overflow-hidden relative font-sans"> {/* Floating Stars */} <div className="absolute inset-0 overflow-hidden"> {[...Array(30)].map((_, i) => ( <div key={i} className="absolute text-white/20 animate-pulse" style={{ left: ${Math.random() * 100}%, top: ${Math.random() * 100}%, fontSize: ${Math.random() * 10 + 8}px, }} > ✦ </div> ))} </div>
+return ( <div className="min-h-screen bg-black text-neutral-200 overflow-hidden relative font-sans"> {/* Floating Stars */} <div className="absolute inset-0 overflow-hidden pointer-events-none"> {[...Array(30)].map((_, i) => ( <div key={i} className="absolute text-white/20 animate-pulse" style={{ left: ${Math.random() * 100}%, top: ${Math.random() * 100}%, fontSize: ${Math.random() * 10 + 8}px, }} > ✦ </div> ))} </div>
 
 {/* Main Content */}
   <div className="relative z-10 flex flex-col items-center justify-center px-6 py-20 text-center">
-    <audio autoPlay loop controls className="mb-8 opacity-70 hover:opacity-100 transition">
-      {/* Replace '/tere-nishan.mp3' with your own uploaded music file */}
+    {/* Music */}
+    <audio controls loop className="mb-8 opacity-80 hover:opacity-100 transition">
       <source src="/tere-nishan.mp3" type="audio/mpeg" />
+      Your browser does not support audio.
     </audio>
+
+    {/* Lotus */}
     <div className="text-6xl mb-4 animate-bounce">🪷</div>
 
+    {/* Heading */}
     <h1 className="text-4xl md:text-6xl font-bold tracking-wide mb-4 text-neutral-100">
       Hey Piddi Gilheri 🐿️
     </h1>
 
+    {/* Subtitle */}
     <p className="max-w-xl text-neutral-400 text-lg leading-relaxed mb-10">
       A tiny cozy corner made for the girl who acts strong even when the world gets loud.
     </p>
@@ -47,6 +52,7 @@ return ( <div className="min-h-screen bg-black text-neutral-200 overflow-hidden 
       Press when sad 🌙
     </button>
 
+    {/* Comfort Message */}
     <div
       id="comfort-box"
       className="mt-8 text-xl text-neutral-300 min-h-[60px] transition-all duration-300"
@@ -55,7 +61,7 @@ return ( <div className="min-h-screen bg-black text-neutral-200 overflow-hidden 
     </div>
 
     {/* Footer */}
-    <div className="mt-20 text-neutral-500 text-sm max-w-lg leading-relaxed">
+    <div className="mt-20 text-neutral-500 text-sm max-w-lg leading-relaxed px-4">
       “Some people are soft like moonlight. Quiet, warm, and easy to miss until the night gets dark.”
     </div>
   </div>
