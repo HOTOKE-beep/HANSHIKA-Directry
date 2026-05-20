@@ -5,206 +5,320 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Piddi Gilheri 🐿️</title>
 
-<!-- Premium Font -->
+<!-- Premium Font Stack -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
+:root {
+  --bg-primary: #050505;
+  --glass-bg: rgba(255, 255, 255, 0.06);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-hover: rgba(255, 255, 255, 0.12);
+  --glass-active: rgba(255, 255, 255, 0.18);
+  --text-main: #ffffff;
+  --text-muted: rgba(255, 255, 255, 0.75);
+}
 
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
 }
 
 body{
-background: radial-gradient(circle at top, #121212, #050505 70%);
-overflow-x:hidden;
-font-family:'Inter', sans-serif;
-color:white;
-cursor:none;
--webkit-font-smoothing: antialiased;
+  background: radial-gradient(circle at top, #121212, var(--bg-primary) 70%);
+  overflow-x:hidden;
+  font-family: 'Inter', sans-serif;
+  color: var(--text-main);
+  cursor: none; /* Replaced with custom glowing node */
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
 }
 
-/* cursor */
+/* Custom Interactive Cursor Glow */
 .cursor{
-width:18px;
-height:18px;
-border-radius:50%;
-background:rgba(255,255,255,0.2);
-position:fixed;
-pointer-events:none;
-transform:translate(-50%,-50%);
-backdrop-filter:blur(6px);
-z-index:9999;
+  width:18px;
+  height:18px;
+  border-radius:50%;
+  background: rgba(255, 255, 255, 0.25);
+  position:fixed;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+  z-index:9999;
+  transition: transform 0.15s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.2s ease;
 }
 
-/* stars */
+.cursor-hover {
+  transform: translate(-50%, -50%) scale(1.8);
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* Floating Audio Status Player */
+.audio-widget {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--glass-border);
+  padding: 10px 18px;
+  border-radius: 30px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.audio-widget:hover {
+  background: var(--glass-hover);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Atmospheric Space Map Elements */
 .stars{
-position:fixed;
-width:100%;
-height:100%;
-top:0;
-left:0;
-z-index:1;
+  position:fixed;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  z-index:1;
+  pointer-events: none;
 }
 
 .star{
-position:absolute;
-color:rgba(255,255,255,0.25);
-animation:twinkle 2s infinite alternate;
+  position:absolute;
+  color:rgba(255,255,255,0.25);
+  animation:twinkle 2s infinite alternate ease-in-out;
 }
 
-/* moon */
 .moon{
-position:fixed;
-top:60px;
-right:60px;
-width:120px;
-height:120px;
-background:radial-gradient(circle at 30% 30%,#fff,#bbb,#777);
-border-radius:50%;
-box-shadow:0 0 70px rgba(255,255,255,0.25);
-animation:float 6s ease-in-out infinite;
+  position:fixed;
+  top:60px;
+  right:60px;
+  width:120px;
+  height:120px;
+  background:radial-gradient(circle at 30% 30%,#fff,#bbb,#777);
+  border-radius:50%;
+  box-shadow:0 0 70px rgba(255,255,255,0.2);
+  animation:float 6s ease-in-out infinite;
+  z-index:1;
 }
 
-/* glow */
 .glow{
-position:fixed;
-width:400px;
-height:400px;
-background:rgba(255,255,255,0.02);
-filter:blur(120px);
-border-radius:50%;
+  position:fixed;
+  width:400px;
+  height:400px;
+  background:rgba(255,255,255,0.015);
+  filter:blur(120px);
+  border-radius:50%;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .glow1{top:-120px;left:-120px;}
 .glow2{bottom:-120px;right:-120px;}
 
-/* container */
+/* Core structural alignment layout */
 .container{
-min-height:100vh;
-max-width:900px;
-margin:auto;
-padding:60px 20px;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-text-align:center;
-z-index:5;
-position:relative;
-animation:fadeIn 1.2s ease;
+  min-height:100vh;
+  max-width:900px;
+  margin:auto;
+  padding:80px 20px 60px 20px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  z-index:5;
+  position:relative;
+  animation:fadeIn 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: filter 0.4s ease;
 }
 
-/* typewriter */
 .typewriter{
-font-size:2.6rem;
-font-weight:600;
-letter-spacing:1px;
-margin-top:20px;
+  font-size:3rem;
+  font-weight:600;
+  letter-spacing:-0.5px;
+  margin-top:20px;
+  min-height: 75px;
 }
 
 .subtitle{
-opacity:0.75;
-margin-top:15px;
-line-height:1.8;
-font-size:1rem;
+  color: var(--text-muted);
+  margin-top:15px;
+  line-height:1.8;
+  font-size:1.05rem;
+  max-width: 600px;
 }
 
-/* cards */
+/* Optimized Card Display Grid Layout */
 .cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
-gap:15px;
-margin-top:40px;
-width:100%;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;
+  margin-top:40px;
+  width:100%;
 }
 
 .card{
-background:rgba(255,255,255,0.06);
-border:1px solid rgba(255,255,255,0.08);
-padding:22px;
-border-radius:18px;
-backdrop-filter:blur(16px);
-transition:0.3s ease;
-cursor:pointer;
-box-shadow:0 10px 30px rgba(0,0,0,0.45);
+  background: var(--glass-bg);
+  border:1px solid var(--glass-border);
+  padding:24px 15px;
+  border-radius:20px;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, background 0.3s ease;
+  cursor: none;
+  box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
 .card:hover{
-transform:translateY(-6px) scale(1.02);
-border-color:rgba(255,255,255,0.2);
-box-shadow:0 20px 50px rgba(0,0,0,0.65);
+  transform:translateY(-6px);
+  background: var(--glass-hover);
+  border-color:rgba(255,255,255,0.18);
 }
 
-/* buttons */
+/* Persistent selection highlight style */
+.card.revealed {
+  background: var(--glass-active);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
 button{
-padding:14px 26px;
-margin-top:20px;
-border-radius:40px;
-background:rgba(255,255,255,0.07);
-border:1px solid rgba(255,255,255,0.1);
-color:white;
-font-size:15px;
-cursor:pointer;
-transition:0.3s;
-backdrop-filter:blur(10px);
+  padding:14px 28px;
+  margin-top:25px;
+  border-radius:40px;
+  background: var(--glass-bg);
+  border:1px solid var(--glass-border);
+  color:white;
+  font-size:15px;
+  font-weight: 500;
+  cursor: none;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
 }
 
 button:hover{
-background:rgba(255,255,255,0.14);
-transform:scale(1.05);
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform:scale(1.03);
 }
 
-/* comfort box */
 #comfort-box{
-margin-top:25px;
-font-size:18px;
-opacity:0.9;
-min-height:40px;
+  margin-top:35px;
+  font-size:20px;
+  color: #f3f4f6;
+  min-height:40px;
+  font-style: italic;
+  transition: opacity 0.2s ease;
 }
 
-/* overlay */
+/* Fullscreen Overlay Systems */
 .overlay{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.92);
-display:none;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-z-index:999;
-text-align:center;
-padding:20px;
+  position:fixed;
+  inset:0;
+  background:rgba(5, 5, 7, 0.94);
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  z-index:999;
+  text-align:center;
+  padding:20px;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.overlay.active {
+  display: flex;
+  opacity: 1;
 }
 
 .overlay h2{
-font-size:2rem;
-margin-bottom:15px;
+  font-size:2.4rem;
+  font-weight: 600;
+  margin-bottom:15px;
+  letter-spacing: -0.5px;
 }
 
-/* animations */
+.overlay p {
+  font-size: 1.1rem;
+  color: #d1d5db;
+  margin-bottom: 10px;
+}
+
+/* Credits Screening Curtain */
+#credits-screen {
+  position: fixed;
+  inset: 0;
+  background: #000000;
+  z-index: 1000;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-family: 'Inter', sans-serif;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+#credits-text {
+  font-size: 2.2rem;
+  font-weight: 300;
+  letter-spacing: 2px;
+  min-height: 50px;
+  margin-bottom: 30px;
+}
+
+/* Keyframe Core Engines */
 @keyframes fadeIn{
-from{opacity:0;transform:translateY(12px);}
-to{opacity:1;transform:translateY(0);}
+  from{opacity:0; transform:translateY(15px);}
+  to{opacity:1; transform:translateY(0);}
 }
 
 @keyframes twinkle{
-from{opacity:0.2;}
-to{opacity:1;}
+  0% { opacity: 0.15; }
+  100% { opacity: 0.85; }
 }
 
 @keyframes float{
-0%,100%{transform:translateY(0);}
-50%{transform:translateY(-10px);}
+  0%,100%{transform:translateY(0) rotate(0deg);}
+  50%{transform:translateY(-12px) rotate(1deg);}
 }
 
+@media(max-width:700px){
+  .typewriter{ font-size:2.2rem; min-height:60px; }
+  .moon{ width:85px; height:85px; top:20px; right:20px; }
+  .cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .audio-widget { top: auto; bottom: 20px; left: 20px; }
+}
 </style>
 </head>
 
 <body>
+
+<!-- Native Invisible Audio Stream Node -->
+<audio id="bgMusic" loop>
+  <source src="tere-nishan.mp3" type="audio/mpeg">
+</audio>
+
+<!-- Interactive Widget Interface Controls -->
+<div class="audio-widget" id="musicWidget">
+  <span id="audio-icon">🎵</span>
+  <span id="audio-label">Tap screen for cozy vibes</span>
+</div>
 
 <div class="cursor" id="cursor"></div>
 <div class="moon"></div>
@@ -212,139 +326,216 @@ to{opacity:1;}
 <div class="glow glow2"></div>
 <div class="stars" id="stars"></div>
 
-<div class="container">
-
-<div style="font-size:70px;">🪷</div>
-
-<div class="typewriter" id="typewriter"></div>
-
-<p class="subtitle">
-A tiny cozy universe made for someone who survives silently but beautifully.
-</p>
-
-<div class="cards">
-
-<div class="card" onclick="reveal('black')">🖤 Black aesthetic</div>
-<div class="card" onclick="reveal('glasses')">🥽 Cute glasses</div>
-<div class="card" onclick="reveal('golgappa')">🌮 Golgappe energy</div>
-<div class="card" onclick="reveal('cat')">🐱 Cat vibes</div>
-<div class="card" onclick="reveal('dog')">🐶 Dog lover</div>
-<div class="card" onclick="reveal('celebrity')">✨ Chhoti celebrity</div>
-
-</div>
-
-<button onclick="showMessage()">Press when sad 🌙</button>
-
-<div id="comfort-box">Tap a card 🖤</div>
-
-</div>
-
+<!-- Safe Spaces Overlay Modals -->
 <div class="overlay" id="overlay">
-<h2>Take care of yourself, kid 🌙</h2>
-<p>Rest now. You did enough 🖤</p>
-<button onclick="closeFinal()">Okay</button>
+  <h2>Take care of yourself, kid 🌙</h2>
+  <p>Rest now. You did enough 🖤</p>
+  <button onclick="openCreditsSequence()">Okay</button>
+</div>
+
+<!-- Non-destructive production Credits Curtain -->
+<div id="credits-screen">
+  <div id="credits-text"></div>
+  <button onclick="closeCreditsSequence()" style="opacity: 0.5; font-size: 13px; padding: 10px 20px;">
+    Go back ↩
+  </button>
+</div>
+
+<div class="container" id="main-container">
+  <div style="font-size:65px; margin-bottom: 10px;">🪷</div>
+
+  <div class="typewriter" id="typewriter"></div>
+
+  <p class="subtitle">
+    A tiny cozy universe made for someone who survives silently but beautifully.
+  </p>
+
+  <div class="cards">
+    <div class="card" onclick="reveal(this, 'black')">🖤 Black aesthetic</div>
+    <div class="card" onclick="reveal(this, 'glasses')">🥽 Cute glasses</div>
+    <div class="card" onclick="reveal(this, 'golgappa')">🌮 Golgappe energy</div>
+    <div class="card" onclick="reveal(this, 'cat')">🐱 Cat vibes</div>
+    <div class="card" onclick="reveal(this, 'dog')">🐶 Dog lover</div>
+    <div class="card" onclick="reveal(this, 'celebrity')">✨ Chhoti celebrity</div>
+  </div>
+
+  <button onclick="showMessage()">Press when sad 🌙</button>
+
+  <div id="comfort-box">Tap a card 🖤</div>
 </div>
 
 <script>
-
+/* Inside Joke Data Mapping Systems */
 const hiddenMessages = {
-black:"Tathastu 🗿",
-glasses:"Kya re double battery",
-golgappa:"10 le 5 aate wale 👹",
-cat:"Kukul khulhadibaaz 😼",
-dog:"Manjit ka ladka ooi 👺",
-celebrity:"Piddi 🗿🐿️🤏"
+  black:"Tathastu 🗿",
+  glasses:"Kya re double battery",
+  golgappa:"10 le 5 aate wale 👹",
+  cat:"Kukul khulhadibaaz 😼",
+  dog:"Manjit ka ladka ooi 👺",
+  celebrity:"Piddi 🗿🐿️🤏"
 };
 
 let clicked = {
-black:false,
-glasses:false,
-golgappa:false,
-cat:false,
-dog:false,
-celebrity:false
+  black:false,
+  glasses:false,
+  golgappa:false,
+  cat:false,
+  dog:false,
+  celebrity:false
 };
 
-function reveal(type){
-document.getElementById("comfort-box").innerText = hiddenMessages[type];
-clicked[type] = true;
-check();
+function reveal(element, type){
+  const comfortBox = document.getElementById("comfort-box");
+  comfortBox.style.opacity = 0;
+  
+  setTimeout(() => {
+    comfortBox.innerText = hiddenMessages[type];
+    comfortBox.style.opacity = 1;
+  }, 150);
+
+  element.classList.add("revealed");
+  clicked[type] = true;
+  checkCompletionState();
 }
 
-function check(){
-if(Object.values(clicked).every(v=>v)){
-setTimeout(()=>{
-document.getElementById("overlay").style.display="flex";
-},700);
-}
-}
-
-function closeFinal(){
-document.body.innerHTML = "";
-
-const div = document.createElement("div");
-div.style.cssText = `
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-background:black;
-color:white;
-font-size:2rem;
-font-family:Inter;
-text-align:center;
-`;
-
-div.innerHTML = `<div id="t"></div>`;
-document.body.appendChild(div);
-
-let text = "Made by HOTOKE";
-let i = 0;
-
-function type(){
-if(i<text.length){
-document.getElementById("t").innerHTML += text[i++];
-setTimeout(type,120);
-}
+function checkCompletionState(){
+  if(Object.values(clicked).every(v => v)){
+    setTimeout(() => {
+      const overlay = document.getElementById("overlay");
+      overlay.style.display = "flex";
+      setTimeout(() => overlay.classList.add("active"), 10);
+      document.getElementById("main-container").style.filter = "blur(8px)";
+    }, 900);
+  }
 }
 
-setTimeout(type,500);
+/* Fixed Non-Destructive Credits Runtime Layer Sequence */
+let creditsInterval;
+function openCreditsSequence(){
+  const overlay = document.getElementById("overlay");
+  overlay.classList.remove("active");
+  setTimeout(() => overlay.style.display = "none", 400);
+
+  const creditsScreen = document.getElementById("credits-screen");
+  const creditsTextContainer = document.getElementById("credits-text");
+  
+  creditsTextContainer.innerHTML = ""; 
+  creditsScreen.style.display = "flex";
+  setTimeout(() => creditsScreen.style.opacity = "1", 50);
+
+  let textStr = "Made by HOTOKE";
+  let idx = 0;
+
+  function runType(){
+    if(idx < textStr.length){
+      creditsTextContainer.innerHTML += textStr[idx++];
+      creditsInterval = setTimeout(runType, 130);
+    }
+  }
+  setTimeout(runType, 600);
 }
 
-const text = "Hey Piddi Gilheri 🐿️";
-let i = 0;
+function closeCreditsSequence() {
+  clearTimeout(creditsInterval);
+  const creditsScreen = document.getElementById("credits-screen");
+  creditsScreen.style.opacity = "0";
+  
+  setTimeout(() => {
+    creditsScreen.style.display = "none";
+    document.getElementById("main-container").style.filter = "blur(0px)";
+    
+    Object.keys(clicked).forEach(key => clicked[key] = false);
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('revealed'));
+    document.getElementById("comfort-box").innerText = "Tap a card 🖤";
+  }, 600);
+}
+
+/* Managed Typewriter Script Engine */
+const headerText = "Hey Piddi Gilheri 🐿️";
+let charIndex = 0;
 
 function typeWriter(){
-if(i<text.length){
-document.getElementById("typewriter").innerHTML += text[i++];
-setTimeout(typeWriter,90);
+  if(charIndex < headerText.length){
+    document.getElementById("typewriter").innerHTML += headerText.charAt(charIndex++);
+    setTimeout(typeWriter, 95);
+  }
 }
-}
-typeWriter();
+window.addEventListener('DOMContentLoaded', typeWriter);
 
 function showMessage(){
-document.getElementById("comfort-box").innerText =
-"You are doing better than you think 🖤";
+  const comfortBox = document.getElementById("comfort-box");
+  comfortBox.style.opacity = 0;
+  setTimeout(() => {
+    comfortBox.innerText = "You are doing better than you think 🖤";
+    comfortBox.style.opacity = 1;
+  }, 150);
 }
 
-// stars
-const stars=document.getElementById("stars");
-for(let i=0;i<40;i++){
-let s=document.createElement("div");
-s.className="star";
-s.innerText="✦";
-s.style.left=Math.random()*100+"%";
-s.style.top=Math.random()*100+"%";
-stars.appendChild(s);
-}
+/* Background Stars Generation Engine */
+const starsContainer = document.getElementById("stars");
+const fragment = document.createDocumentFragment();
 
-// cursor
-const cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{
-cursor.style.left=e.clientX+"px";
-cursor.style.top=e.clientY+"px";
+for(let i=0; i<45; i++){
+  const star = document.createElement("div");
+  star.className = "star";
+  star.innerText = "✦";
+  star.style.left = Math.random() * 100 + "%";
+  star.style.top = Math.random() * 100 + "%";
+  star.style.fontSize = Math.random() * 6 + 7 + "px";
+  star.style.animationDelay = Math.random() * 2 + "s";
+  fragment.appendChild(star);
+}
+starsContainer.appendChild(fragment);
+
+/* Center-Calibrated Interactive Custom Cursor Engine */
+const cursor = document.getElementById("cursor");
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
 });
 
+function syncCursorTriggers() {
+  const interactiveTargets = document.querySelectorAll('button, .card, .audio-widget');
+  interactiveTargets.forEach(target => {
+    target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+    target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+  });
+}
+setTimeout(syncCursorTriggers, 500);
+
+/* Intelligent Background Autoplay Framework */
+const music = document.getElementById("bgMusic");
+const musicWidget = document.getElementById("musicWidget");
+const audioIcon = document.getElementById("audio-icon");
+const audioLabel = document.getElementById("audio-label");
+
+function tryPlayAudio() {
+  music.play().then(() => {
+    audioIcon.innerText = "🌙";
+    audioLabel.innerText = "Playing softly...";
+    // Cleanup baseline background click capture once active audio streaming is validated
+    document.body.removeEventListener('click', tryPlayAudio);
+  }).catch(() => {
+    console.log("Autoplay context restricted. Deferring execution context for interaction event.");
+  });
+}
+
+// Global window event background listeners catch any early interaction
+document.body.addEventListener('click', tryPlayAudio);
+
+// Let her toggle it on/off manually using the widget button if she prefers
+musicWidget.addEventListener('click', (e) => {
+  e.stopPropagation(); // Avoid triggering parent body click actions
+  if (music.paused) {
+    music.play();
+    audioIcon.innerText = "🌙";
+    audioLabel.innerText = "Playing softly...";
+  } else {
+    music.pause();
+    audioIcon.innerText = "📁";
+    audioLabel.innerText = "Music paused";
+  }
+});
 </script>
 
 </body>
