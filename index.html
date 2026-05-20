@@ -1,12 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Piddi Gilheri 🐿️</title>
+
+<!-- Premium Font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background: radial-gradient(circle at top, #121212, #050505 70%);
+overflow-x:hidden;
+font-family:'Inter', sans-serif;
+color:white;
+cursor:none;
+-webkit-font-smoothing: antialiased;
+}
+
+/* cursor */
+.cursor{
+width:18px;
+height:18px;
+border-radius:50%;
+background:rgba(255,255,255,0.2);
+position:fixed;
+pointer-events:none;
+transform:translate(-50%,-50%);
+backdrop-filter:blur(6px);
+z-index:9999;
+}
+
+/* stars */
+.stars{
+position:fixed;
+width:100%;
+height:100%;
+top:0;
+left:0;
+z-index:1;
+}
+
+.star{
+position:absolute;
+color:rgba(255,255,255,0.25);
+animation:twinkle 2s infinite alternate;
+}
+
+/* moon */
+.moon{
+position:fixed;
+top:60px;
+right:60px;
+width:120px;
+height:120px;
+background:radial-gradient(circle at 30% 30%,#fff,#bbb,#777);
+border-radius:50%;
+box-shadow:0 0 70px rgba(255,255,255,0.25);
+animation:float 6s ease-in-out infinite;
+}
+
+/* glow */
+.glow{
+position:fixed;
+width:400px;
+height:400px;
+background:rgba(255,255,255,0.02);
+filter:blur(120px);
+border-radius:50%;
+}
+
+.glow1{top:-120px;left:-120px;}
+.glow2{bottom:-120px;right:-120px;}
+
+/* container */
+.container{
+min-height:100vh;
+max-width:900px;
+margin:auto;
+padding:60px 20px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+z-index:5;
+position:relative;
+animation:fadeIn 1.2s ease;
+}
+
+/* typewriter */
+.typewriter{
+font-size:2.6rem;
+font-weight:600;
+letter-spacing:1px;
+margin-top:20px;
+}
+
+.subtitle{
+opacity:0.75;
+margin-top:15px;
+line-height:1.8;
+font-size:1rem;
+}
+
+/* cards */
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+gap:15px;
+margin-top:40px;
+width:100%;
+}
+
+.card{
+background:rgba(255,255,255,0.06);
+border:1px solid rgba(255,255,255,0.08);
+padding:22px;
+border-radius:18px;
+backdrop-filter:blur(16px);
+transition:0.3s ease;
+cursor:pointer;
+box-shadow:0 10px 30px rgba(0,0,0,0.45);
+}
+
+.card:hover{
+transform:translateY(-6px) scale(1.02);
+border-color:rgba(255,255,255,0.2);
+box-shadow:0 20px 50px rgba(0,0,0,0.65);
+}
+
+/* buttons */
+button{
+padding:14px 26px;
+margin-top:20px;
+border-radius:40px;
+background:rgba(255,255,255,0.07);
+border:1px solid rgba(255,255,255,0.1);
+color:white;
+font-size:15px;
+cursor:pointer;
+transition:0.3s;
+backdrop-filter:blur(10px);
+}
+
+button:hover{
+background:rgba(255,255,255,0.14);
+transform:scale(1.05);
+}
+
+/* comfort box */
+#comfort-box{
+margin-top:25px;
+font-size:18px;
+opacity:0.9;
+min-height:40px;
+}
+
+/* overlay */
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.92);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999;
+text-align:center;
+padding:20px;
+}
+
+.overlay h2{
+font-size:2rem;
+margin-bottom:15px;
+}
+
+/* animations */
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(12px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
+}
+
+@keyframes float{
+0%,100%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="moon"></div>
+<div class="glow glow1"></div>
+<div class="glow glow2"></div>
+<div class="stars" id="stars"></div>
+
+<div class="container">
+
+<div style="font-size:70px;">🪷</div>
+
+<div class="typewriter" id="typewriter"></div>
+
+<p class="subtitle">
+A tiny cozy universe made for someone who survives silently but beautifully.
+</p>
+
+<div class="cards">
+
+<div class="card" onclick="reveal('black')">🖤 Black aesthetic</div>
+<div class="card" onclick="reveal('glasses')">🥽 Cute glasses</div>
+<div class="card" onclick="reveal('golgappa')">🌮 Golgappe energy</div>
+<div class="card" onclick="reveal('cat')">🐱 Cat vibes</div>
+<div class="card" onclick="reveal('dog')">🐶 Dog lover</div>
+<div class="card" onclick="reveal('celebrity')">✨ Chhoti celebrity</div>
+
+</div>
+
+<button onclick="showMessage()">Press when sad 🌙</button>
+
+<div id="comfort-box">Tap a card 🖤</div>
+
+</div>
+
+<div class="overlay" id="overlay">
+<h2>Take care of yourself, kid 🌙</h2>
+<p>Rest now. You did enough 🖤</p>
+<button onclick="closeFinal()">Okay</button>
+</div>
+
 <script>
 
 const hiddenMessages = {
-black: "Tathastu 🗿",
-glasses: "Kya re double battery",
-golgappa: "10 le 5 aate wale 10 ke 4 suzi wale 👹",
-cat: "Kukul khulhadibaaz 😼",
-dog: "Manjit ka ladka ooi 👺",
-celebrity: "Piddi 🗿🐿️🤏"
+black:"Tathastu 🗿",
+glasses:"Kya re double battery",
+golgappa:"10 le 5 aate wale 👹",
+cat:"Kukul khulhadibaaz 😼",
+dog:"Manjit ka ladka ooi 👺",
+celebrity:"Piddi 🗿🐿️🤏"
 };
 
 let clicked = {
@@ -18,105 +265,72 @@ dog:false,
 celebrity:false
 };
 
-let finalTriggered = false;
-
-// reveal function + tracking
 function reveal(type){
 document.getElementById("comfort-box").innerText = hiddenMessages[type];
 clicked[type] = true;
-checkFinalUnlock();
+check();
 }
 
-// FINAL CHECK
-function checkFinalUnlock(){
-const allDone = Object.values(clicked).every(v => v === true);
-
-if(allDone && !finalTriggered){
-finalTriggered = true;
-
+function check(){
+if(Object.values(clicked).every(v=>v)){
 setTimeout(()=>{
-document.getElementById("overlay").style.display = "flex";
-document.querySelector(".overlay h2").innerText = "🖤 Final Message";
-document.querySelector(".overlay p").innerHTML = "Take care of yourself, kid 🌙";
-},800);
-
+document.getElementById("overlay").style.display="flex";
+},700);
 }
 }
 
-// CLOSE → END SEQUENCE
-function closeOverlay(){
-
-// hide popup
-document.getElementById("overlay").style.display = "none";
-
-// destroy everything
+function closeFinal(){
 document.body.innerHTML = "";
 
-// create final screen
-const end = document.createElement("div");
-end.style.height = "100vh";
-end.style.display = "flex";
-end.style.flexDirection = "column";
-end.style.justifyContent = "center";
-end.style.alignItems = "center";
-end.style.background = "black";
-end.style.color = "white";
-end.style.fontSize = "2rem";
-end.style.fontFamily = "Arial";
-end.style.textAlign = "center";
+const div = document.createElement("div");
+div.style.cssText = `
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:black;
+color:white;
+font-size:2rem;
+font-family:Inter;
+text-align:center;
+`;
 
-end.innerHTML = `<div id="type"></div>`;
-document.body.appendChild(end);
+div.innerHTML = `<div id="t"></div>`;
+document.body.appendChild(div);
 
-// typewriter effect
-const text = "Made by HOTOKE";
+let text = "Made by HOTOKE";
 let i = 0;
 
 function type(){
-if(i < text.length){
-document.getElementById("type").innerHTML += text.charAt(i);
-i++;
+if(i<text.length){
+document.getElementById("t").innerHTML += text[i++];
 setTimeout(type,120);
 }
 }
 
-setTimeout(type,600);
+setTimeout(type,500);
 }
 
-// typewriter intro
 const text = "Hey Piddi Gilheri 🐿️";
 let i = 0;
 
 function typeWriter(){
-if(i < text.length){
-document.getElementById("typewriter").innerHTML += text.charAt(i);
-i++;
-setTimeout(typeWriter,100);
+if(i<text.length){
+document.getElementById("typewriter").innerHTML += text[i++];
+setTimeout(typeWriter,90);
 }
 }
 typeWriter();
 
-// random messages
-const messages = [
-"You don’t always have to act strong here 🖤",
-"Tiny celebrity detected ✨",
-"Drink water, piddi gilheri 🐿️",
-"The world feels softer with you in it 🌙"
-];
-
 function showMessage(){
 document.getElementById("comfort-box").innerText =
-messages[Math.floor(Math.random()*messages.length)];
-}
-
-function squirrelMessage(){
-alert("Emergency squirrel hug deployed 🐿️🫂");
+"You are doing better than you think 🖤";
 }
 
 // stars
 const stars=document.getElementById("stars");
-for(let i=0;i<45;i++){
-const s=document.createElement("div");
+for(let i=0;i<40;i++){
+let s=document.createElement("div");
 s.className="star";
 s.innerText="✦";
 s.style.left=Math.random()*100+"%";
@@ -132,3 +346,6 @@ cursor.style.top=e.clientY+"px";
 });
 
 </script>
+
+</body>
+</html>
