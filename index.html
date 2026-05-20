@@ -13,14 +13,13 @@ box-sizing:border-box;
 }
 
 body{
-background:#050505;
+background:radial-gradient(circle at top,#1a1a1a,#050505 60%);
 overflow-x:hidden;
 font-family:Arial,sans-serif;
 color:white;
 cursor:none;
 }
 
-/* Cursor Glow */
 .cursor{
 width:20px;
 height:20px;
@@ -33,7 +32,6 @@ backdrop-filter:blur(4px);
 z-index:9999;
 }
 
-/* Stars */
 .stars{
 position:fixed;
 width:100%;
@@ -50,21 +48,20 @@ color:rgba(255,255,255,0.25);
 animation:twinkle 2s infinite alternate;
 }
 
-/* Moon */
 .moon{
 position:fixed;
 top:60px;
 right:60px;
 width:130px;
 height:130px;
-background:radial-gradient(circle,#fff,#bbb);
+background:radial-gradient(circle at 30% 30%,#fff,#ddd,#999);
+filter:blur(1px);
 border-radius:50%;
 box-shadow:0 0 80px rgba(255,255,255,0.3);
 z-index:1;
 animation:floatMoon 6s ease-in-out infinite;
 }
 
-/* Ambient Glow */
 .glow{
 position:fixed;
 width:400px;
@@ -85,7 +82,6 @@ bottom:-120px;
 right:-120px;
 }
 
-/* Petals */
 .petal{
 position:fixed;
 top:-10px;
@@ -95,7 +91,6 @@ z-index:2;
 opacity:0.8;
 }
 
-/* Main Container */
 .container{
 min-height:100vh;
 padding:40px 20px;
@@ -107,6 +102,7 @@ text-align:center;
 position:relative;
 z-index:5;
 animation:fadeIn 2s ease;
+transition:1s;
 }
 
 .typewriter{
@@ -144,9 +140,9 @@ backdrop-filter:blur(8px);
 .card:hover{
 transform:translateY(-5px) scale(1.03);
 background:rgba(255,255,255,0.08);
+box-shadow:0 0 25px rgba(255,255,255,0.08);
 }
 
-/* Buttons */
 button{
 padding:15px 30px;
 margin-top:20px;
@@ -164,6 +160,18 @@ background:rgba(255,255,255,0.18);
 transform:scale(1.05);
 }
 
+#musicBtn{
+position:fixed;
+top:20px;
+left:20px;
+z-index:1000;
+background:rgba(255,255,255,0.08);
+backdrop-filter:blur(10px);
+border:1px solid rgba(255,255,255,0.1);
+padding:12px 20px;
+font-size:14px;
+}
+
 #comfort-box{
 margin-top:25px;
 font-size:20px;
@@ -172,7 +180,14 @@ color:#ddd;
 padding:0 10px;
 }
 
-/* Hidden squirrel */
+#secretNote{
+margin-top:25px;
+font-size:15px;
+color:#999;
+opacity:0;
+transition:1s;
+}
+
 .squirrel{
 position:fixed;
 bottom:20px;
@@ -187,7 +202,15 @@ transition:0.3s;
 transform:scale(1.2);
 }
 
-/* Footer */
+#cat{
+position:fixed;
+left:20px;
+bottom:20px;
+font-size:28px;
+z-index:99;
+cursor:pointer;
+}
+
 .footer{
 margin-top:70px;
 color:#777;
@@ -196,7 +219,6 @@ max-width:550px;
 padding:0 20px;
 }
 
-/* Emergency Mode */
 .overlay{
 position:fixed;
 inset:0;
@@ -221,7 +243,6 @@ color:#ccc;
 line-height:1.8;
 }
 
-/* Animations */
 @keyframes twinkle{
 from{opacity:0.2;}
 to{opacity:1;}
@@ -268,7 +289,6 @@ height:90px;
 
 <div class="stars" id="stars"></div>
 
-<!-- Emergency Comfort -->
 <div class="overlay" id="overlay">
 <h2>You are safe here 🪷</h2>
 <p>
@@ -284,9 +304,13 @@ Return Slowly 🌙
 
 <div class="container">
 
-<audio controls loop>
+<audio id="bgMusic" loop>
 <source src="tere-nishan.mp3" type="audio/mpeg">
 </audio>
+
+<button id="musicBtn">
+🎵 Touch for cozy vibes
+</button>
 
 <div style="font-size:75px;">🪷</div>
 
@@ -317,20 +341,24 @@ Everything feels too much 🫶
 You are safe here 🪷
 </div>
 
+<div id="secretNote"></div>
+
 <div class="footer">
 “Some people are soft like moonlight. Quiet, warm, and easy to miss until the night gets dark.”
 </div>
 
 </div>
 
-<!-- Hidden Squirrel -->
+<div id="cat">
+🐱
+</div>
+
 <div class="squirrel" onclick="squirrelMessage()">
 🐿️
 </div>
 
 <script>
 
-/* Typewriter */
 const text = "Hey Piddi Gilheri 🐿️";
 let i = 0;
 
@@ -344,7 +372,6 @@ setTimeout(typeWriter,100);
 
 typeWriter();
 
-/* Comfort Messages */
 const messages = [
 "You don’t always have to act strong here 🖤",
 "Tiny celebrity detected ✨",
@@ -361,12 +388,10 @@ const text = messages[Math.floor(Math.random()*messages.length)];
 document.getElementById("comfort-box").innerText = text;
 }
 
-/* Squirrel Secret */
 function squirrelMessage(){
 alert("Emergency squirrel hug deployed 🐿️🫂");
 }
 
-/* Stars */
 const stars = document.getElementById("stars");
 
 for(let i=0;i<45;i++){
@@ -382,15 +407,20 @@ star.style.fontSize=Math.random()*12+8+"px";
 stars.appendChild(star);
 }
 
-/* Petals */
 function createPetal(){
 const petal = document.createElement("div");
 
 petal.className="petal";
-petal.innerText="🪷";
 
+const petals=["🪷","🌸","✨"];
+
+petal.innerText=petals[Math.floor(Math.random()*petals.length)];
+
+petal.style.fontSize=(Math.random()*20+15)+"px";
+petal.style.opacity=Math.random();
 petal.style.left=Math.random()*100+"vw";
 petal.style.animationDuration=(Math.random()*5+5)+"s";
+
 
 document.body.appendChild(petal);
 
@@ -401,7 +431,6 @@ petal.remove();
 
 setInterval(createPetal,1200);
 
-/* Cursor Glow */
 const cursor = document.getElementById("cursor");
 
 document.addEventListener("mousemove",(e)=>{
@@ -409,16 +438,47 @@ cursor.style.left=e.clientX+"px";
 cursor.style.top=e.clientY+"px";
 });
 
-/* Overlay */
 function openOverlay(){
 document.getElementById("overlay").style.display="flex";
+document.querySelector(".container").style.filter="blur(8px)";
 }
 
 function closeOverlay(){
 document.getElementById("overlay").style.display="none";
+document.querySelector(".container").style.filter="blur(0px)";
 }
 
-/* Exit Message */
+const music=document.getElementById("bgMusic");
+const musicBtn=document.getElementById("musicBtn");
+
+musicBtn.addEventListener("click",()=>{
+music.play();
+musicBtn.innerText="🌙 Playing";
+});
+
+document.getElementById("cat").onclick=()=>{
+alert("meow meow comfort delivery 🐱");
+};
+
+const notes=[
+"You matter more than you think 🌙",
+"Rest your mind a little 🪷",
+"Some souls deserve softness 🖤",
+"You're doing better than you realize ✨"
+];
+
+setInterval(()=>{
+const note=document.getElementById("secretNote");
+
+note.style.opacity=0;
+
+setTimeout(()=>{
+note.innerText=notes[Math.floor(Math.random()*notes.length)];
+note.style.opacity=1;
+},1000);
+
+},8000);
+
 window.onbeforeunload = function(){
 return "Take care, tiny celebrity 🌙";
 };
